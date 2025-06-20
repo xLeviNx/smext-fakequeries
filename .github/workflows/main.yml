@@ -1,16 +1,8 @@
-name: build
+name: Build
 
 on:
   push:
-    branches:
-      - main
-    paths-ignore:
-      - LICENSE
-      - README.md
-  pull_request:
-    paths-ignore:
-      - LICENSE
-      - README.md
+    branches: [ main ]
 
 jobs:
   build:
@@ -22,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-20.04
+          - ubuntu-22.04
           - windows-latest
         include:
           - os: ubuntu-22.04
@@ -33,7 +25,7 @@ jobs:
     steps:
 
       - name: Setup Python 3.9
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v3
         with:
           python-version: 3.9
 
@@ -47,7 +39,7 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get install -y gcc-multilib g++-multilib llvm-10 clang-10
+          sudo apt-get install -y gcc-multilib g++-multilib llvm clang
 
       - name: Select clang compiler (Linux)
         if: runner.os == 'Linux'
@@ -72,30 +64,30 @@ jobs:
           )
 
       - name: Checkout MetaMod
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
             repository: alliedmodders/metamod-source
             ref: 1.11-dev
             path: metamod-source
             submodules: recursive
-            
+
       - name: Checkout SourceMod
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           repository: alliedmodders/sourcemod
           ref: 1.11-dev
           path: sourcemod
           submodules: recursive
-          
+
       - name: Checkout hl2sdk-csgo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
-          repository: alliedmodders/hl2sdk
+          repository: Wend4r/hl2sdk
           ref: csgo
           path: hl2sdk-csgo
 
       - name: Checkout Project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           path: extension
 
@@ -111,4 +103,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}
-          path: extension
+          path: extension/build/package
