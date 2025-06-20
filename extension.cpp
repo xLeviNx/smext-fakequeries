@@ -226,12 +226,6 @@ bool FakeQuery::SDK_OnLoad(char *error, size_t maxlen, bool late)
     SH_MANUALHOOK_RECONFIGURE(Hook_RecvFrom, offset, 0, 0);
     SH_ADD_MANUALHOOK(Hook_RecvFrom, g_pSteamSocketMgr, SH_STATIC(Hook_RecvFrom), true);
    
-    if(!g_ReturnA2sInfo.ReadSteamINF())
-    {
-        snprintf(error, maxlen, "Error reading steam.inf");
-        return false;
-    }
-
     sharesys->AddNatives(myself, g_ExtensionNatives);
     sharesys->RegisterLibrary(myself, "fakequeries");
     
