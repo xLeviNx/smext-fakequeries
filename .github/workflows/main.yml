@@ -103,4 +103,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}
-          path: extension/build/package
+          path: extension
